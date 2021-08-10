@@ -1,194 +1,381 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<link rel="icon" type="image/png" href="images/favicon.png">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<title>POLAR MANAGEMENT LTD.Home</title>
-	<meta name="description" content="POLAR Management">
-	<meta name="keywords" content="POLAR">
+<?php include ('functions.php');?>
+<?php
+$data = FALSE;
+if($data=db_get_row("SELECT * FROM web_pages WHERE name='jobs'")) ;
+else $data = $data=db_get_row("SELECT * FROM web_pages WHERE name='404'");
+$remote_url = "https://ats.polar-management.com/Documentation/Apis/";
+  //$remote_url = "https://testibg-lp-027:443/Documentation/Apis/";
+$postData = array();
+$postData['userName'] = 'WEBCLIENT';
+$postData['userKey'] = 'VUU5TVFWSkFNakF4T1E9PQ==';
+$ctry_title = '';
+$thisjob = FALSE;
+$thisapply = FALSE;
+if(isset($_GET['job'])) {
+  $job_ref = strval($_GET['job']);
+  $thisjob = 'Job details for '. strval($_GET['title']);
+  $remote_url .= 'getJoblisting/Job/'.$job_ref.'/';
+  $postData['job_ref'] = $job_ref;
+} elseif(isset($_GET['apply'])) {
+  $job_id = strval($_GET['apply']);
+  $thisapply = 'Job Application form for '. strval($_GET['title']);
+  $remote_url .= 'getJoblisting/Apply/'.$job_id.'/';
+  $postData['job_id'] = $job_id;
+} elseif(isset($_GET['country'])) {
+  $location_of_work = strval($_GET['country']);
+  $ctry_title = 'in '   .str_replace('*',' ', $location_of_work);
+  $remote_url .= 'getJoblisting/Country/'.$location_of_work.'/';
+  $postData['location_of_work'] = $location_of_work;
+} else {    
+  $remote_url .= 'getJoblisting/List/';
+    //$postData['akk'] = 'ALL Jobs';
+}
+$payload = json_encode($postData);
 
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Open+Sans|Raleway" rel="stylesheet">
-	<link rel="stylesheet" href="css/flexslider.css">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	
-	<!-- Page level plugin CSS-->
-	<link href="web-admin/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-	<link rel="stylesheet" href="css/style.css">
+$ch = curl_init();
+curl_setopt_array(
+  $ch, array(
+    CURLOPT_URL => $remote_url,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_SSL_VERIFYPEER => true,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLINFO_HEADER_OUT => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => $payload,
+    CURLOPT_HTTPHEADER => array(
+      'Accept: application/json',
+      'Content-Type: application/json',
+      'Content-Length: ' . strlen($payload)
+    )
+  )
+); 
+$return = curl_exec($ch);
+curl_close($ch);
+$result = json_decode(($return));
+
+// $heading_title = 'Currently Available Jobs';
+// $heading = $thisjob==FALSE? $heading_title. ' '.$ctry_title:$thisjob;
+// $heading = $thisapply==FALSE? $heading:$thisapply;
+//   //var_dump($result,$remote_url)
+
+$heading; 
+
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="assets/images/favicon.png">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+  <title>Polar</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<!-- Additional CSS Files -->
+<link rel="stylesheet" href="assets/css/fontawesome.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/owl.css">
+
 </head>
 
-<body id="top" data-spy="scroll">
-	<!--top header-->
+<body>
 
-	<header id="home">
+  <!-- ***** Preloader Start ***** -->
+  <div id="preloader">
+    <div class="jumper">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>  
+  <!-- ***** Preloader End ***** -->
 
-		<section class="top-nav hidden-xs">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-3">
-						<div class="top-left">
-							<ul>
-								<li><a href="https://www.facebook.com/PolarManagement/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-								<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="top-left">
-							<ul>
-								<li><a href="login.php"><i class="fa fa-sign-in" aria-hidden="true"></i>My Account</a></li>							</ul>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="top-right">
-							<p>Location:<span>COMET HSE, MONROVIA STREET SUITE 19</span></p>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</section>
-
-		<!--main-nav-->
-
-		<div id="main-nav">
-
-			<nav class="navbar">
-				<div class="container">
-
-					<div class="navbar-header">
-						<!--a href="" class="navbar-brand">POLAR</a!-->
-						<img class="navbar" height="90" src="images/logo.jpeg" />
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ftheme">
-							<span class="sr-only">Toggle</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-					</div>
-
-					<div class="navbar-collapse collapse" id="ftheme">
-
-						<ul class="nav navbar-nav navbar-right">
-							<li  class="active"  ><a href="index.php">home</a></li>
-							<li  ><a href="about.php">about</a></li>
-							<li  ><a href="service.php">services</a></li>
-							<li  ><a href="jobs.php">Jobs</a></li>
-							<li  ><a href="contact.php">contact</a></li>
-							<li class="hidden-sm hidden-xs">
-								<a href="#" id="ss"><i class="fa fa-search" aria-hidden="true"></i></a>
-							</li>
-						</ul>
-
-					</div>
-
-					<div class="search-form">
-						<form>
-							<input type="text" id="s" size="40" placeholder="Search..." />
-						</form>
-					</div>
-
-				</div>
-			</nav>
-		</div>
-		<hr style="margin:0;" />
-	</header>
-
-	<!--slider-->
-	<div id="slider" class="flexslider">
-					<ul class="slides">
-				<li><img src="web-admin/media/slideshow/1515155324.jpg" ><div class="caption" ><h2><span>Great Work</span></h2><p>Polar Management(K)Limited is your first stop to your next career move in any field and is the one that you can totally trust to work with and find the appointment that meets your needs and expectations.</p></div></li><li><img src="web-admin/media/slideshow/1515154982.jpg" ><div class="caption" ><h2><span>Enthusiastic Membership Attitude</span></h2><p>We are always on the lookout for determined, enthusiastic people who are passionate about a career.</p></div></li><li><img src="web-admin/media/slideshow/1515155405.jpg" ><div class="caption" ><h2><span>Colaboration Team Group</span></h2><p>Polar Management(K) Limited specializes in permanent and temporary job placements for all types of work.</p></div></li><li><img src="web-admin/media/slideshow/1515155217.jpg" ><div class="caption" ><h2><span>Great Team Members</span></h2><p>We aim to build and maintain long term relationships with both our clients and our candidates.</p></div></li>			</ul>
-			</div>
-	<div id="about">
-					<div class="container">
-						<div class="row">
-
-							<div class="col-md-12">
-								<div class="about-heading1"><h2>Home</h2></div>
-								<p><p>Polar Management(K)Limited is an employment company registered under Kenyan Law and deals with foreign placement solutions/services located in Nairobi &ndash; Kenya..<img alt="" src="/POLAR/web-admin/fileman/Uploads/Images/service1.jpg" style="float:left; height:394px; width:400px" /></p>
-
-<p>&nbsp;Polar Management(K)Limited brings a fresh and innovative approach&nbsp; &nbsp; &nbsp;to&nbsp; consulting services, acting as liaison between the job seekers and&nbsp; &nbsp;the foreign employers and also provides and harnesses employment&nbsp; &nbsp;migration and development to both the home and destination countries.&nbsp; &nbsp;We aim to build and maintain long term relationships. The company has reported substantial organic growth over the past ten years&hellip;&nbsp; &nbsp; &nbsp; &nbsp;undoubtedly as a result of this philosophy.</p></p>
-								
-							</div>
-
-						</div>
-					</div>	<!--footer-->
-	<div id="footer">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="footer-heading">
-						<h3><span>about</span> us</h3>						
-						<p>Content under maintenance&nbsp;</p>						
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="footer-heading">
-						<h3><span>latest</span> <a href="news.php">news</a></h3>
-						No current news available					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="footer-heading">
-						<h3><span>Our </span><a href="gallery.php">Gallery</a></h3>
-						<div class="insta">
-						<ul><img src="web-admin/media/photos/1534919833.jpg" alt="Steel Fixers Qatar" /><ul>						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-	<!--bottom footer-->
-	<div id="bottom-footer" class="hidden-xs">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4">
-					<div class="footer-left">
-						&copy; POLAR MANAGEMENT Ltd. All rights reserved
-						<div class="credits">
-							Designed by <a href="http://www.afomeng.com">AFOM</a>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-md-8">
-					<div class="footer-right">
-						<ul class="list-unstyled list-inline pull-right">
-							<li><a href="index.php">Home</a></li>
-							<li><a href="about.php">About</a></li>
-							<li><a href="service.php">Services</a></li>
-							<li><a href="jobs.php">Jobs</a></li>
-							<li><a href="contact.php">Contact</a></li>
-							<li><a href="web-admin/login.php" target="_blank" >Staff Login</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <!-- Header -->
+  <header class="">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" href="index.php"><h2>Polar <em>Agencies</em></h2></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.php">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li> 
+            
 
 
 
-	<!-- jQuery -->
-	<script src="js/jquery.min.js"></script>
-	<!-- Page level plugin JavaScript-->
-    <script src="web-admin/vendor/datatables/jquery.dataTables.js"></script>
-    <script src="web-admin/vendor/datatables/dataTables.bootstrap4.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.flexslider.js"></script>
-	<script src="js/jquery.inview.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8HeI8o-c1NppZA-92oYlXakhDPYR7XMY"></script>
-	<script src="js/script.js"></script>
-	<!--script src="contactform/contactform.js"></script!-->
-	<!-- Custom scripts for this page-->
-    <script src="web-admin/js/sb-admin-datatables.min.js"></script>
+            <li class="nav-item"><a class="nav-link" href="aboutus.php">About Us</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="services.php">Our Services</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="jobs.php">Jobs</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="https://finance.polarmanpower.com/">Staff Login</a></li>
+
+            <li class="nav-item"><a class="nav-link" href="contact.php">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Page Content -->
+  <!-- Banner Starts Here -->
+  <div class="banner header-text">
+    <div class="owl-banner owl-carousel">
+      <div class="banner-item-01">
+        <div class="text-content">
+          <h2>GREAT WORK</h2>
+          <h4>Your first stop to your next career move in any field.</h4>
+        </div>
+      </div>
+      <div class="banner-item-02">
+        <div class="text-content">
+          <h2>GREAT TEAM MEMBERS</h2>
+          <h4>Build and maintain long term relationships with our clients and our candidates.</h4>
+        </div>
+      </div>
+      <div class="banner-item-03">
+        <div class="text-content">
+          <h2>COLABORATION TEAM GROUP</h2>
+          <h4>We are always on the lookout for determined, enthusiastic people who are passionate about a career.</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Banner Ends Here -->
+
+  <div class="best-features">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <h2>About Us</h2>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="left-content">
+            <p>Polar Agencies is an employment company registered under Kenyan Law and deals with foreign placement solutions/services located in Nairobi &ndash; Kenya.</p>
+            <p> Polar Agencies brings a fresh and innovative approach to consulting services, acting as liaison between the job seekers and&nbsp; &nbsp;the foreign employers and also provides and harnesses employment&nbsp; &nbsp;migration and development to both the home and destination countries.&nbsp; &nbsp;We aim to build and maintain long term relationships. The company has reported substantial organic growth over the past ten years undoubtedly as a result of this philosophy</p>
+            <ul class="featured-list">
+              <li><a href="#">Time management</a></li>
+              <li><a href="#">Interpersonal skills</a></li>
+              <li><a href="#"> Leadership qualities.</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="right-image">
+            <img src="assets/images/IMG_8939.jpg" alt="">
+          </div>
+        </div>
+        <div class="offset-3 col-md-6 text-center">
+          <br/>
+          <a href="aboutus.php" class="filled-button">Read More</a>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="services" style="background-image: url(assets/images/IMG_884.jpg);" >
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <h2>Currently Available Jobs</h2>
+
+            <a href="blog.html">read more <i class="fa fa-angle-right"></i></a>
+          </div>
+        </div>
+
+        <?php
+
+        if(isset($result->jobs)) {
+  $number_output = 0;                //$jobs = $result->jobs;
+  foreach($result->jobs AS $row) {
+
+    $number_output++;
+    if($number_output > 3)break;
+
+
+    echo '
+    <div class="col-lg-4 col-md-6">
+    <div class="service-item">
+    <a href="#" class="services-item-image"><img src="assets/images/IMG_8928.jpg" class="img-fluid" alt=""></a>
+
+    <div class="down-content">
+    <h4><a href="?job='.$row->id.'&title='.$row->position.' at '.$row->company_name.'" >'.$row->position.' - '.$row->company_name.'</a></h4>
+    <h6><b>Duty Station: </b>'.$row->location_of_work.' <br/>
+    <b>Posted on: </b>'.$row->created_on.' <br/> <b>Status: </b> <i  style="color:green;">'.$row->status.' </i></h6>
+    <br />
+
+    <div class="pull-right">
+    <a href="jobs.php?job='.$row->id.'&title='.$row->position.' at '.$row->company_name.'" >Read more to Apply<i class="fa fa-angle-right"></i></a>
+    </div>
+    </div>
+    </div>
+    </div>';
+
+
+
+
+  }                 
+} 
+?>
+
+
+<div class="offset-3 col-md-6 text-center">
+  <a href="jobs.php" class="filled-button">Find More Jobs</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="happy-clients">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="section-heading">
+          <h2>Our Clients</h2>
+
+          <a href="testimonials.html">read more <i class="fa fa-angle-right"></i></a>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="owl-clients owl-carousel text-center">
+          <div class="service-item">
+            <div class="icon">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="down-content">
+              <h4>ABDAL RECRUITMENT CO </h4>
+<!--                   <p class="n-m"><em>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</em></p>
+-->                </div>
+</div>
+
+<div class="service-item">
+  <div class="icon">
+    <i class="fa fa-user"></i>
+  </div>
+  <div class="down-content">
+    <h4>MOHAMMED AL-HAIDER</h4>
+<!--                   <p class="n-m"><em>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</em></p>
+-->                </div>
+</div>
+
+<div class="service-item">
+  <div class="icon">
+    <i class="fa fa-user"></i>
+  </div>
+  <div class="down-content">
+    <h4>CAN RECRUITMENT OFFICE</h4>
+    <!--  <p class="n-m"><em>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</em></p> -->
+  </div>
+</div>
+
+<div class="service-item">
+  <div class="icon">
+    <i class="fa fa-user"></i>
+  </div>
+  <div class="down-content">
+    <h4>BRIGHT INTERNATIONAL</h4>
+    <!-- <p class="n-m"><em>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</em></p> -->
+  </div>
+</div>
+
+<div class="service-item">
+  <div class="icon">
+    <i class="fa fa-user"></i>
+  </div>
+  <div class="down-content">
+    <h4>SAUDI COMPANY</h4>
+    <!-- <p class="n-m"><em>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</em></p> -->
+  </div>
+</div>
+
+<div class="service-item">
+  <div class="icon">
+    <i class="fa fa-user"></i>
+  </div>
+  <div class="down-content">
+    <h4>FUEL PUMP ATTENDANTS</h4>
+    <!-- s -->
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div class="call-to-action">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="inner-content">
+          <div class="row">
+            <div class="col-md-8">
+              <h4>Polar Agencies</h4>
+              <p>We aim to build and maintain long term relationships with both our clients and our candidates</p>
+            </div>
+            <div class="col-lg-4 col-md-6 text-right">
+              <a href="contact.php" class="filled-button">Contact Us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="inner-content">
+         <ul class="social-icons">
+          <li><a href="https://www.facebook.com/PolarManagement/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+          <li><a href="https://twitter.com/polarglobal?lang=en"><i class="fa fa-twitter"></i></a></li>
+          <li><a href="https://ca.linkedin.com/company/aboutpolar"><i class="fa fa-linkedin"></i></a></li>
+          <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+        </ul>
+        <br />
+        <p>Copyright © 2021 POLAR AGENCIES Ltd. All rights reserved<</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+</footer>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- Additional Scripts -->
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/owl.js"></script>
 </body>
-
 </html>
