@@ -192,8 +192,8 @@ $heading;
         <div class="section-heading">
           <h2>Currently Available Jobs</h2>
 
-          <a href="blog.html">read more <i class="fa fa-angle-right"></i></a>
-        </div>
+<!--           <a href="blog.html">read more <i class="fa fa-angle-right"></i></a>
+ -->        </div>
       </div>
 
       <?php
@@ -247,8 +247,8 @@ $heading;
         <div class="section-heading">
           <h2>Our Clients</h2>
 
-          <a href="testimonials.html">read more <i class="fa fa-angle-right"></i></a>
-        </div>
+<!--           <a href="testimonials.html">read more <i class="fa fa-angle-right"></i></a>
+ -->        </div>
       </div>
       <div class="col-md-12">
         <div class="owl-clients owl-carousel text-center">
