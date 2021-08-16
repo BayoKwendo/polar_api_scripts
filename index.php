@@ -1,57 +1,41 @@
 <?php include ('functions.php');?>
 <?php
 $data = FALSE;
-if($data=db_get_row("SELECT * FROM web_pages WHERE name='jobs'")) ;
-else $data = $data=db_get_row("SELECT * FROM web_pages WHERE name='404'");
-$remote_url = "https://ats.polar-management.com/Documentation/Apis/";
-  //$remote_url = "https://testibg-lp-027:443/Documentation/Apis/";
-$postData = array();
-$postData['userName'] = 'WEBCLIENT';
-$postData['userKey'] = 'VUU5TVFWSkFNakF4T1E9PQ==';
-$ctry_title = '';
-$thisjob = FALSE;
-$thisapply = FALSE;
-if(isset($_GET['job'])) {
-  $job_ref = strval($_GET['job']);
-  $thisjob = 'Job details for '. strval($_GET['title']);
-  $remote_url .= 'getJoblisting/Job/'.$job_ref.'/';
-  $postData['job_ref'] = $job_ref;
-} elseif(isset($_GET['apply'])) {
-  $job_id = strval($_GET['apply']);
-  $thisapply = 'Job Application form for '. strval($_GET['title']);
-  $remote_url .= 'getJoblisting/Apply/'.$job_id.'/';
-  $postData['job_id'] = $job_id;
-} elseif(isset($_GET['country'])) {
-  $location_of_work = strval($_GET['country']);
-  $ctry_title = 'in '   .str_replace('*',' ', $location_of_work);
-  $remote_url .= 'getJoblisting/Country/'.$location_of_work.'/';
-  $postData['location_of_work'] = $location_of_work;
-} else {    
-  $remote_url .= 'getJoblisting/List/';
-    //$postData['akk'] = 'ALL Jobs';
-}
-$payload = json_encode($postData);
 
+$remote_url;
+
+if(isset($_GET['filter_value'])) {
+
+  $filter_value = str_replace(' ','*',$_GET['filter_value']);
+  $remote_url = "https://www.peakbooks.biz:2005/jobs_public?filter_value=$filter_value";
+}elseif(isset($_GET['id'])) {
+
+  $id = str_replace(' ','*',$_GET['id']);
+  $remote_url = "https://www.peakbooks.biz:2005/jobs_public?id=$id";
+}
+else{
+  $remote_url = "https://www.peakbooks.biz:2005/jobs_public";
+}
+
+
+  //$remote_url = "https://testibg-lp-027:443/Documentation/Apis/";
 $ch = curl_init();
-curl_setopt_array(
-  $ch, array(
-    CURLOPT_URL => $remote_url,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_SSL_VERIFYPEER => true,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLINFO_HEADER_OUT => true,
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => $payload,
-    CURLOPT_HTTPHEADER => array(
-      'Accept: application/json',
-      'Content-Type: application/json',
-      'Content-Length: ' . strlen($payload)
-    )
-  )
-); 
+curl_setopt($ch, CURLOPT_URL, $remote_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+$headers = array(
+  'Accept: application/json',
+  'Content-Type: application/json'
+);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 $return = curl_exec($ch);
-curl_close($ch);
-$result = json_decode(($return));
+if (curl_errno($ch)) {
+  echo 'Error:' . curl_error($ch);
+}
+$result = json_decode($return);
+
+
+
 
 // $heading_title = 'Currently Available Jobs';
 // $heading = $thisjob==FALSE? $heading_title. ' '.$ctry_title:$thisjob;
@@ -176,39 +160,47 @@ $heading;
               <li><a href="#">Interpersonal skills</a></li>
               <li><a href="#"> Leadership qualities.</a></li>
             </ul>
-          </div>
+            <br/>
+            <ul class="social-icons">
+             <li><a href="https://www.facebook.com/PolarManagement/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+             <li><a href="https://twitter.com/polarglobal?lang=en"><i class="fa fa-twitter"></i></a></li>
+             <li><a href="https://ca.linkedin.com/company/aboutpolar"><i class="fa fa-linkedin"></i></a></li>
+             <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+             
+           </ul>
+         </div>
+       </div>
+       <div class="col-md-6">
+        <div class="right-image">
+          <img src="assets/images/IMG_8939.jpg" alt="">
         </div>
-        <div class="col-md-6">
-          <div class="right-image">
-            <img src="assets/images/IMG_8939.jpg" alt="">
-          </div>
-        </div>
-        <div class="offset-3 col-md-6 text-center">
-          <br/>
-          <a href="aboutus.php" class="filled-button">Read More</a>
+      </div>
+      <div class="offset-3 col-md-6 text-center">
+        <br/>
+        <a href="aboutus.php" class="filled-button">Read More</a>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="services" style="background-image: url(assets/images/IMG_884.jpg);" >
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="section-heading">
+          <h2>Currently Available Jobs</h2>
+
+          <a href="blog.html">read more <i class="fa fa-angle-right"></i></a>
         </div>
       </div>
 
+      <?php
 
-    </div>
-  </div>
-
-  <div class="services" style="background-image: url(assets/images/IMG_884.jpg);" >
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="section-heading">
-            <h2>Currently Available Jobs</h2>
-
-            <a href="blog.html">read more <i class="fa fa-angle-right"></i></a>
-          </div>
-        </div>
-
-        <?php
-
-        if(isset($result->jobs)) {
+      if(isset($result->data)) {
   $number_output = 0;                //$jobs = $result->jobs;
-  foreach($result->jobs AS $row) {
+  foreach($result->data AS $row) {
 
     $number_output++;
     if($number_output > 3)break;
@@ -226,7 +218,7 @@ $heading;
     <br />
 
     <div class="pull-right">
-    <a href="jobs.php?job='.$row->id.'&title='.$row->position.' at '.$row->company_name.'" >Read more to Apply<i class="fa fa-angle-right"></i></a>
+    <a href="jobs.php?id='.$row->id.'" >Read more to Apply<i class="fa fa-angle-right"></i></a>
     </div>
     </div>
     </div>

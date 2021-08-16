@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
- <link rel="icon" href="assets/images/favicon.png">
+  <link rel="icon" href="assets/images/favicon.png">
   <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
   <title>Polar</title>
@@ -49,9 +49,9 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li> 
-             <li class="nav-item"><a class="nav-link" href="aboutus.php">About Us</a></li>
-           
-          
+            <li class="nav-item"><a class="nav-link" href="aboutus.php">About Us</a></li>
+
+
 
             <li class="nav-item active"><a class="nav-link" href="services.php">Our Services</a></li>
 
@@ -78,6 +78,27 @@
       </div>
     </div>
   </div>
+
+
+
+  
+<!-- 
+  <div class="best-features about-features">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <h2>Lorem ipsum dolor sit amet consectetur adipisicing</h2>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="right-image">
+            <img src="assets/images/recruitement.jpg" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
 
   <div class="team-members">
     <div class="container">

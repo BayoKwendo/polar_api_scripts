@@ -1,0 +1,2 @@
+[11-Jan-2018 18:44:46 Africa/Kampala] PHP Warning:  Creating default object from empty value in /home/afomeng/public_html/sandbox/web-admin/functions.php on line 124
+[11-Jan-2018 18:44:46 Africa/Kampala] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/afomeng/public_html/sandbox/web-admin/functions.php:124) in /home/afomeng/public_html/sandbox/web-admin/functions.php on line 86
