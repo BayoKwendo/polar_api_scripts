@@ -110,7 +110,9 @@
       Nairobi-Kenya<br>
       <b>Tel:</b> _+254111024500 │ +254723277996<br>
       <b>Email: </b> polaragencies@gmail.com</p>
+
       <ul class="social-icons">
+        <br/>
         <li><a href="https://www.facebook.com/PolarManagement/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
         <li><a href="https://twitter.com/polarglobal?lang=en"><i class="fa fa-twitter"></i></a></li>
         <li><a href="https://ca.linkedin.com/company/aboutpolar"><i class="fa fa-linkedin"></i></a></li>
@@ -178,7 +180,32 @@
           </div>
         </div>
         <div class="col-md-4">
-          <img src="assets/images/IMG_8.jpg" class="img-fluid" alt="">
+         <div class="fb-page" 
+         data-tabs="events"
+         data-href="https://web.facebook.com/PolarManagement/?_rdc=1&_rdr"
+         data-width="380">
+
+       </div>
+       <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId            : '?_rdc=1&_rdr',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v11.0'
+          });
+        };
+      </script>
+      <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+      <a class="twitter-timeline"
+      href="https://twitter.com/polaragencies?lang=en"
+      data-width="300"
+      data-height="300">
+      Tweets by @PolarAgencies
+    </a>
+      <!-- 
+        <img src="assets/images/IMG_8.jpg" class="img-fluid" alt=""> -->
 
 <!--         <h5 class="text-center" style="margin-top: 15px;">John Doe</h5>
 -->      </div>

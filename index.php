@@ -147,12 +147,18 @@ $heading;
     <div class="container">
       <div class="row">
         <div class="col-md-12">
+
+
           <div class="section-heading">
             <h2>About Us</h2>
           </div>
         </div>
         <div class="col-md-6">
           <div class="left-content">
+
+
+
+
             <p>Polar Agencies is an employment company registered under Kenyan Law and deals with foreign placement solutions/services located in Nairobi &ndash; Kenya.</p>
             <p> Polar Agencies brings a fresh and innovative approach to consulting services, acting as liaison between the job seekers and&nbsp; &nbsp;the foreign employers and also provides and harnesses employment&nbsp; &nbsp;migration and development to both the home and destination countries.&nbsp; &nbsp;We aim to build and maintain long term relationships. The company has reported substantial organic growth over the past ten years undoubtedly as a result of this philosophy</p>
             <ul class="featured-list">
@@ -161,28 +167,55 @@ $heading;
               <li><a href="#"> Leadership qualities.</a></li>
             </ul>
             <br/>
-            <ul class="social-icons">
-             <li><a href="https://www.facebook.com/PolarManagement/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-             <li><a href="https://twitter.com/polarglobal?lang=en"><i class="fa fa-twitter"></i></a></li>
-             <li><a href="https://ca.linkedin.com/company/aboutpolar"><i class="fa fa-linkedin"></i></a></li>
-             <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-             
-           </ul>
-         </div>
-       </div>
-       <div class="col-md-6">
-        <div class="right-image">
-          <img src="assets/images/IMG_8939.jpg" alt="">
-        </div>
-      </div>
-      <div class="offset-3 col-md-6 text-center">
-        <br/>
-        <a href="aboutus.php" class="filled-button">Read More</a>
+            <div class="fb-page" 
+            data-tabs="events"
+            data-href="https://web.facebook.com/PolarManagement/?_rdc=1&_rdr"
+            data-width="380">
+
+          </div>
+          <script>
+            window.fbAsyncInit = function() {
+              FB.init({
+                appId            : '?_rdc=1&_rdr',
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v11.0'
+              });
+            };
+          </script>
+          <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+          <ul class="social-icons">
+            <br/>
+            <li><a href="https://www.facebook.com/PolarManagement/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li><a href="https://twitter.com/polarglobal?lang=en"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="https://ca.linkedin.com/company/aboutpolar"><i class="fa fa-linkedin"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+
+          </ul>
+          <br />
+          
+          <a class="twitter-timeline"
+          href="https://twitter.com/polaragencies?lang=en"
+          data-width="300"
+          data-height="300">
+          Tweets by @PolarAgencies
+        </a>
+
       </div>
     </div>
-
-
+    <div class="col-md-6">
+      <div class="right-image">
+        <img src="assets/images/IMG_8939.jpg" alt="">
+      </div>
+    </div>
+    <div class="offset-3 col-md-6 text-center">
+      <br/>
+      <a href="aboutus.php" class="filled-button">Read More</a>
+    </div>
   </div>
+
+
+</div>
 </div>
 
 <div class="services" style="background-image: url(assets/images/IMG_884.jpg);" >
@@ -193,12 +226,12 @@ $heading;
           <h2>Currently Available Jobs</h2>
 
 <!--           <a href="blog.html">read more <i class="fa fa-angle-right"></i></a>
- -->        </div>
-      </div>
+-->        </div>
+</div>
 
-      <?php
+<?php
 
-      if(isset($result->data)) {
+if(isset($result->data)) {
   $number_output = 0;                //$jobs = $result->jobs;
   foreach($result->data AS $row) {
 
@@ -248,16 +281,16 @@ $heading;
           <h2>Our Clients</h2>
 
 <!--           <a href="testimonials.html">read more <i class="fa fa-angle-right"></i></a>
- -->        </div>
+-->        </div>
+</div>
+<div class="col-md-12">
+  <div class="owl-clients owl-carousel text-center">
+    <div class="service-item">
+      <div class="icon">
+        <i class="fa fa-user"></i>
       </div>
-      <div class="col-md-12">
-        <div class="owl-clients owl-carousel text-center">
-          <div class="service-item">
-            <div class="icon">
-              <i class="fa fa-user"></i>
-            </div>
-            <div class="down-content">
-              <h4>ABDAL RECRUITMENT CO </h4>
+      <div class="down-content">
+        <h4>ABDAL RECRUITMENT CO </h4>
 <!--                   <p class="n-m"><em>"Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat."</em></p>
 -->                </div>
 </div>
