@@ -11,7 +11,7 @@ $payload = json_encode($postData);
 
 echo $payload;
 
-$remote_url = "https://www.peakbooks.biz:2005/applicant_add";
+$remote_url = "https://api.polarmanpower.com/applicant_add";
 
 $ch = curl_init();
 curl_setopt_array(
