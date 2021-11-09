@@ -7,14 +7,14 @@ $remote_url;
 if(isset($_GET['filter_value'])) {
 
   $filter_value = str_replace(' ','*',$_GET['filter_value']);
-  $remote_url = "https://www.peakbooks.biz:2005/jobs_public?filter_value=$filter_value";
+  $remote_url = "https://api.polarmanpower.com/jobs_public?filter_value=$filter_value";
 }elseif(isset($_GET['id'])) {
 
   $id = str_replace(' ','*',$_GET['id']);
-  $remote_url = "https://www.peakbooks.biz:2005/jobs_public?id=$id";
+  $remote_url = "https://api.polarmanpower.com/jobs_public?id=$id";
 }
 else{
-  $remote_url = "https://www.peakbooks.biz:2005/jobs_public";
+  $remote_url = "https://api.polarmanpower.com/jobs_public";
 }
 
 
